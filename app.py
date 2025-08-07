@@ -71,7 +71,7 @@ with tab1:
     fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=1)
 
     # lollipop para cambio en el recaudo entre 2023 y 2024 por clasificacion general
     pres_2023 = pres[(pres['Año'] == 2023)].groupby('clas_gen')['recaudo_cons'].sum().reset_index()
@@ -121,7 +121,7 @@ with tab1:
     )
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=2)
 
     # b = (pres[(pres['Año'] == 2024) & (pres['Tipo de Entidad'] == 'Departamento')]
     #      .groupby(['Código DANE', 'Entidad'])['Total Recaudo']
@@ -314,7 +314,7 @@ with tab1:
         )
         # change hover info: only show name and increase the size of the hover text
         fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, key=3)
 
     with col2:
         # lollipop chart 2023 vs 2024, x axis: total recaudo, y axis: departament, no lines
@@ -363,7 +363,7 @@ with tab1:
 
         # change hover info: only show name and increase the size of the hover text
         fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, key=4)
 
     
 
@@ -397,7 +397,7 @@ with tab1:
         )
         # change hover info: only show name and increase the size of the hover text
         fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-        st.plotly_chart(fig)        
+        st.plotly_chart(fig, key=5)        
     with cols_dep[1]:
         tot_24_pc = fild[fild['Año'] == 2024]['recaudo_pc_cons'].sum()
         tot_23_pc = fild[fild['Año'] == 2023]['recaudo_pc_cons'].sum()
@@ -447,7 +447,7 @@ with tab1:
             margin=dict(l=100, r=50, t=50, b=50),  # More left margin for long department names
             yaxis=dict(automargin=True)  # Avoid cutting labels
         )
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, key=6)
         # calculate the absolute variation per clas_gen between 2023 and 2024
 
     g = (fild.pivot_table(index='clasificacion_ofpuj', columns='Año', values='recaudo_pc', aggfunc='sum')
@@ -488,7 +488,7 @@ with tab1:
             showlegend = False
     )
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=7)
     # 
 
     st.divider()
@@ -596,7 +596,7 @@ with tab1:
         )
         # change hover info: only show name and increase the size of the hover text
         fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, key=8)
 
     with col2:
         # lollipop chart 2023 vs 2024, x axis: total recaudo, y axis: departament, no lines
@@ -645,7 +645,7 @@ with tab1:
 
         # change hover info: only show name and increase the size of the hover text
         fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, key=9)
 
 
     mun = st.selectbox("Selecciona un municipio", options=fil_dep[fil_dep['Tipo de Entidad'] == 'Municipio']['Entidad'].unique())
@@ -676,7 +676,7 @@ with tab1:
         )
         # change hover info: only show name and increase the size of the hover text
         fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-        st.plotly_chart(fig)        
+        st.plotly_chart(fig, key=10)        
     with cols_dep[1]:
         tot_24_pc = fild[fild['Año'] == 2024]['recaudo_pc_cons'].sum()
         tot_23_pc = fild[fild['Año'] == 2023]['recaudo_pc_cons'].sum()
@@ -726,7 +726,7 @@ with tab1:
             margin=dict(l=100, r=50, t=50, b=50),  # More left margin for long department names
             yaxis=dict(automargin=True)  # Avoid cutting labels
         )
-        st.plotly_chart(fig)
+        st.plotly_chart(fig, key=11)
 
     g = (fild.pivot_table(index='clasificacion_ofpuj', columns='Año', values='recaudo_pc', aggfunc='sum')
          .assign(var=lambda x: x[2024] - x[2023])
@@ -764,7 +764,7 @@ with tab1:
             showlegend = False
     )
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=12)
 
 
     # a = (pres[(pres['Año'] == 2024) & (pres['Tipo de Entidad'] == 'Municipio')]
@@ -921,7 +921,7 @@ with tab2:
     fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=13)
 
     # grouped bar chart using the SGP data, dividing it by Concepto and year 2024, filter by Tipo de Entidad == departamento, color refers to Concepto
     b = sgp.query("Año == 2024 & TipoEntidad == 'Departamento'").groupby(['Concepto', 'Categoría'])['Valor_pop'].mean().reset_index()
@@ -941,7 +941,7 @@ with tab2:
     )
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=134)
 
     # grouped bar chart using the SGP data, dividing it by Concepto and year 2024, filter by Tipo de Entidad == departamento, color refers to Concepto
     c = sgp.query("Año == 2024 & TipoEntidad == 'Municipio'").groupby(['Concepto', 'Categoría'])['Valor_pop'].mean().reset_index()
@@ -961,7 +961,7 @@ with tab2:
     )
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=144)
 
 
 
@@ -1046,7 +1046,7 @@ with tab2:
     )
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=15)
     # lollipop chart 2023 vs. 2024, x axis: gini, y axis: Total, Educación, Salud, Propósito general, no lines
     g_2023 = tab_munis.iloc[:, 0].reset_index()
     g_2024 = tab_munis.iloc[:, 1].reset_index()
@@ -1092,7 +1092,7 @@ with tab2:
     )
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=155)
 
 
 
@@ -1124,7 +1124,7 @@ with tab2:
     fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=1555)
     # gini general por departamento
 
     deps = sgp[(sgp['TipoEntidad'] == 'Departamento') & (sgp['Año'] == 2024)]['NombreEntidad'].unique()
@@ -1150,7 +1150,7 @@ with tab2:
     )
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig) 
+    st.plotly_chart(fig, key=15555) 
     
     g = (depar.pivot_table(index='Concepto', columns='Año', values='Valor_pc', aggfunc='sum')
          .assign(var=lambda x: x[2024] - x[2023])
@@ -1190,7 +1190,7 @@ with tab2:
             showlegend = False
     )
 
-    st.plotly_chart(fig)       
+    st.plotly_chart(fig, key=555)       
 
 
     st.divider()
@@ -1216,7 +1216,7 @@ with tab2:
     fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=55)
     # gini general por departamento
 
     depto = st.selectbox("Selecciona un departamento", options=deps, key=3445)
@@ -1244,7 +1244,7 @@ with tab2:
     )
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='text', hoverlabel=dict(font_size=16, font_color="#1A1F63"))
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=6)
 
     # calculate the absolute variation per clas_gen between 2023 and 2024
     g = (muni.pivot_table(index='Concepto', columns='Año', values='Valor_pc', aggfunc='sum')
@@ -1281,7 +1281,7 @@ with tab2:
             showlegend = False
     )
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=61)
 
 # Tab 3: SGR
 with tab3:
@@ -1291,20 +1291,20 @@ with tab3:
 
     fig = px.treemap(sgr, path=[px.Constant("SGR"), 'Concepto', 'Subconcepto', 'Subsubconcepto'], values='Valor')
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=612)
 
     # barras de asignación directa por categoría en departamentos
 
     t = sgr[sgr['Tipo entidad'] == 'Departamento'].groupby(['Categoría', 'Subconcepto'])['Valor'].sum().reset_index()
 
     fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos')
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=6111)
     # barras de asignación directa por categoría en municipios
 
     t = sgr[sgr['Tipo entidad'] == 'Municipio'].groupby(['Categoría', 'Subconcepto'])['Valor'].sum().reset_index()
 
     fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos')
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=613)
 
     # seleccionar departamento
     deps = sgr[sgr['Tipo entidad'] == 'Departamento']['Departamento'].unique()
@@ -1331,7 +1331,7 @@ with tab3:
     fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=62)
 
     # seleccionar municipio
 
@@ -1358,4 +1358,4 @@ with tab3:
     fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
     # change hover info: only show name and increase the size of the hover text
     fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=621)
