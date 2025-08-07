@@ -1305,7 +1305,7 @@ elif selected_option == "Sistema General de Participaciones":
             treemapcolorway = color_seq
         )
 
-        st.plotly_chart(fig, use_container_width=True, key="treemap_waterfall_fixed")
+        st.plotly_chart(fig, use_container_width=True, key="treemap-waterfall")
     with tab3:
         st.subheader("Por municipio")
 
