@@ -447,7 +447,7 @@ with tab1:
             margin=dict(l=100, r=50, t=50, b=50),  # More left margin for long department names
             yaxis=dict(automargin=True)  # Avoid cutting labels
         )
-        st.plotly_chart(fig, key=6)
+        st.plotly_chart(fig, key=85)
         # calculate the absolute variation per clas_gen between 2023 and 2024
 
     g = (fild.pivot_table(index='clasificacion_ofpuj', columns='Año', values='recaudo_pc', aggfunc='sum')
