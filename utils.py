@@ -12,6 +12,8 @@ COLORES = {'verde':["#009966"],
                'az_verd': ["#CBECEF", "#81D3CD", "#0FB7B3", "#009999"],
                'ax_viol': ["#D9D9ED", "#2F399B", "#1A1F63", "#262947"],
                'ofiscal': ["#F9F9F9", "#2635bf"]}
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -62,3 +64,29 @@ def gini_by_department(df, column='AsignacionEducacion'):
     
     return gini_value
 
+def path_to_labels_parents(df, path_cols, value_col, val_parent=""):
+    """
+    Transforms a DataFrame with a path hierarchy into labels and parents format for go.Treemap.
+
+    Parameters:
+        df (pd.DataFrame): Input data.
+        path_cols (list): List of columns representing the hierarchy (from root to leaves).
+        value_col (str): Column containing values for the treemap.
+
+    Returns:
+        pd.DataFrame with columns: 'id', 'label', 'parent', 'value'
+    """
+    from itertools import accumulate
+    rows = []
+    for _, row in df.iterrows():
+        path_values = [str(row[col]) for col in path_cols]
+        value = row[value_col]
+        for i in range(len(path_values)):
+            id_ = "/".join(path_values[:i+1])
+            parent = "/".join(path_values[:i]) if i > 0 else val_parent
+            label = path_values[i]
+            rows.append({"id": id_, "label": label, "parent": parent, "value": value if i == len(path_values)-1 else None})
+
+    treemap_df = pd.DataFrame(rows)
+    treemap_df = treemap_df.groupby(["id", "label", "parent"], as_index=False).agg({"value": "sum"}).fillna(0)
+    return treemap_df
