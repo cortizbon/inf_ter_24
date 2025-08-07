@@ -1219,7 +1219,7 @@ elif selected_option == "Sistema General de Participaciones":
         )
 
         # --- Mostrar en Streamlit ---
-        st.plotly_chart(fig, use_container_width=True, key="sgp_combo_plot")
+        st.plotly_chart(fig, use_container_width=True, key="sgp-combo-plot")
 
         # --- Selección del departamento ---
         deps = sgp[(sgp['TipoEntidad'] == 'Departamento') & (sgp['Año'] == 2024)]['NombreEntidad'].unique()
