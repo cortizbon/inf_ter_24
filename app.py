@@ -36,8 +36,6 @@ sgr = pd.read_csv('datasets/sgr_2324.csv')
 
 ## carga de mapas
 
-muns = gpd.read_parquet('datasets/muns.parquet')
-deptos = gpd.read_parquet('datasets/deptos.parquet')
 
 # tabs (3)
 
@@ -78,7 +76,10 @@ with tab1:
     # lollipop para cambio en el recaudo entre 2023 y 2024 por clasificacion general
     pres_2023 = pres[(pres['Año'] == 2023)].groupby('clas_gen')['recaudo_cons'].sum().reset_index()
     pres_2024 = pres[(pres['Año'] == 2024)].groupby('clas_gen')['recaudo_cons'].sum().reset_index()
+    st.dataframe(pres_2023)
+    st.dataframe(pres_2024)
     pres_comparison = pd.merge(pres_2023, pres_2024, on='clas_gen', suffixes=('_2023', '_2024'))
+    st.dataframe(pres_comparison, use_container_width=True)
     pres_comparison = pres_comparison.sort_values(by='recaudo_cons_2024', ascending=False).head(15).sort_values(by='recaudo_cons_2024')
     fig = go.Figure()
     fig.add_trace(go.Scatter(
