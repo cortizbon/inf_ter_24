@@ -76,10 +76,7 @@ with tab1:
     # lollipop para cambio en el recaudo entre 2023 y 2024 por clasificacion general
     pres_2023 = pres[(pres['Año'] == 2023)].groupby('clas_gen')['recaudo_cons'].sum().reset_index()
     pres_2024 = pres[(pres['Año'] == 2024)].groupby('clas_gen')['recaudo_cons'].sum().reset_index()
-    st.dataframe(pres_2023)
-    st.dataframe(pres_2024)
     pres_comparison = pd.merge(pres_2023, pres_2024, on='clas_gen', suffixes=('_2023', '_2024'))
-    st.dataframe(pres_comparison, use_container_width=True)
     pres_comparison = pres_comparison.sort_values(by='recaudo_cons_2024', ascending=False).head(15).sort_values(by='recaudo_cons_2024')
     fig = go.Figure()
     fig.add_trace(go.Scatter(
@@ -997,9 +994,6 @@ with tab2:
                     tabla_munis[year].append(valor)
     tab_deptos =  pd.DataFrame(tabla_deptos, index=index)
     tab_munis = pd.DataFrame(tabla_munis, index=index)
-                
-    st.dataframe(tab_deptos)
-    st.dataframe(tab_munis)
 
     # lollipop chart 2023 vs. 2024, x axis: gini, y axis: Total, Educación, Salud, Propósito general, no lines
     g_2023 = tab_deptos.iloc[:-1, 0].reset_index()
@@ -1289,7 +1283,8 @@ with tab3:
 
     # donut de asignaciones generales
 
-    fig = px.treemap(sgr, path=[px.Constant("SGR"), 'Concepto', 'Subconcepto', 'Subsubconcepto'], values='Valor')
+    fig = px.treemap(sgr, path=[px.Constant("SGR"), 'Concepto', 'Subconcepto', 'Subsubconcepto'], values='Valor',
+                     color_discrete_sequence=["#1A1F63","#2F399B" ,"#D9D9ED",])
 
     st.plotly_chart(fig, key=612)
 
@@ -1297,13 +1292,15 @@ with tab3:
 
     t = sgr[sgr['Tipo entidad'] == 'Departamento'].groupby(['Categoría', 'Subconcepto'])['Valor'].sum().reset_index()
 
-    fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos')
+    fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos',
+                 color_discrete_sequence=["#1A1F63","#2F399B" ,"#D9D9ED",])
     st.plotly_chart(fig, key=6111)
     # barras de asignación directa por categoría en municipios
 
     t = sgr[sgr['Tipo entidad'] == 'Municipio'].groupby(['Categoría', 'Subconcepto'])['Valor'].sum().reset_index()
 
-    fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos')
+    fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos',
+                 color_discrete_sequence=["#1A1F63","#2F399B" ,"#D9D9ED",])
     st.plotly_chart(fig, key=613)
 
     # seleccionar departamento
