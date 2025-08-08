@@ -15,7 +15,9 @@ from streamlit_option_menu import option_menu
 st.set_page_config(
     page_title="Ingresos territoriales - 2024",
     layout="wide",)
-
+color_seq = ["#F7B261", "#CBECEF", "#D9D9ED", "#D8841C", "#81D3CD", "#2F399B", "#dd722a", "#0FB7B3", "#1A1F63"]
+        
+color_seq.reverse()
 colors = ["#009999", "#CBECEF"]  
 cmap = LinearSegmentedColormap.from_list("my_cmap", colors, N=256)
 
@@ -72,7 +74,7 @@ elif selected_option == "Presupuesto":
 
         # Crear figura con subplots
         fig = make_subplots(rows=1, cols=2, 
-                            column_widths=[0.7, 0.3],
+                            column_widths=[0.5, 0.5],
                             specs=[[{'type': 'domain'}, {'type': 'xy'}]])
 
         # Gráfico de pie
@@ -82,7 +84,7 @@ elif selected_option == "Presupuesto":
                 values=a.values,
                 hole=0.7,
                 textinfo='percent',
-                marker=dict(colors=["#D9D9ED", "#2F399B", '#1A1F63', "#2635bf"]),
+                marker=dict(colors=color_seq[:len(a.index)]),
                 pull=[0.1, 0.1, 0.1, 0.1],
                 hoverinfo='label+percent',
                 showlegend=False  # Show legend here
@@ -166,7 +168,7 @@ elif selected_option == "Presupuesto":
                 values=a.values,
                 hole=0.7,
                 textinfo='percent',
-                marker=dict(colors=["#D9D9ED", "#2F399B", '#1A1F63', "#2635bf"]),
+                marker=dict(colors=color_seq[:len(a.index)]),
                 pull=[0.1, 0.1, 0.1, 0.1],
                 hoverinfo='label+percent',
                 showlegend=True  # Show legend here
@@ -181,7 +183,7 @@ elif selected_option == "Presupuesto":
                     x=b.index,
                     y=b[col],
                     name=col,
-                    marker=dict(color=["#D9D9ED", "#2F399B", '#1A1F63', "#2635bf"][i]),
+                    marker=dict(color=color_seq[i]),
                     hovertemplate=f"{col}",
                     hoverinfo='none',
                     text=b[col].apply(lambda x: f"{x:.1f}"),
@@ -224,7 +226,7 @@ elif selected_option == "Presupuesto":
             a = pres[pres['Año'] == 2024].groupby(['clas_gen', 'clasificacion_ofpuj'])['recaudo_cons'].sum().reset_index()
             fig = px.treemap(a, path=[px.Constant('Presupuesto'), 'clas_gen', 'clasificacion_ofpuj'],
                             values='recaudo_cons',
-                            color_discrete_sequence=["#262947", "#1A1F63","#2F399B" ,"#D9D9ED"],
+                            color_discrete_sequence=color_seq,
                             title="Proporciones de recaudo departamental",
                             labels={'recaudo_cons': 'Recaudo (millones de pesos)', 'clasificacion_ofpuj': 'Clasificación OFPUJ'},
                             hover_data=['clas_gen'])
@@ -306,7 +308,7 @@ elif selected_option == "Presupuesto":
             a = fild[fild['Año'] == 2024].groupby(['clas_gen', 'clasificacion_ofpuj'])['recaudo_cons'].sum().reset_index()
             fig = px.treemap(a, path=[px.Constant('Presupuesto'), 'clas_gen', 'clasificacion_ofpuj'],
                             values='recaudo_cons',
-                            color_discrete_sequence=["#262947", "#1A1F63","#2F399B" ,"#D9D9ED",],
+                            color_discrete_sequence=color_seq,
                             title=f"Proporciones de recaudo - {depar}",
                             labels={'recaudo_cons': 'Recaudo (millones de pesos)', 'clasificacion_ofpuj': 'Clasificación OFPUJ'},
                             hover_data=['clas_gen'])
@@ -545,7 +547,7 @@ elif selected_option == "Presupuesto":
                 values=a.values,
                 hole=0.7,
                 textinfo='percent',
-                marker=dict(colors=["#D9D9ED", "#2F399B", '#1A1F63', "#2635bf"]),
+                marker=dict(colors=color_seq[:len(a.index)]),
                 pull=[0.1, 0.1, 0.1, 0.1],
                 hoverinfo='label+percent',
                 showlegend=True  # Show legend here
@@ -560,7 +562,7 @@ elif selected_option == "Presupuesto":
                     x=b.index,
                     y=b[col],
                     name=col,
-                    marker=dict(color=["#D9D9ED", "#2F399B", '#1A1F63', "#2635bf"][i]),
+                    marker=dict(color=color_seq[i]),
                     hovertemplate=f"{col}",
                     hoverinfo='none',
                     text=b[col].apply(lambda x: f"{x:.1f}"),
@@ -602,7 +604,7 @@ elif selected_option == "Presupuesto":
             a = pres[pres['Año'] == 2024].groupby(['clas_gen', 'clasificacion_ofpuj'])['recaudo_cons'].sum().reset_index()
             fig = px.treemap(a, path=[px.Constant('Presupuesto'), 'clas_gen', 'clasificacion_ofpuj'],
                             values='recaudo_cons',
-                            color_discrete_sequence=["#262947", "#1A1F63","#2F399B" ,"#D9D9ED",],
+                            color_discrete_sequence=color_seq,
                             title="Proporciones de recaudo municipal",
                             labels={'recaudo_cons': 'Recaudo (millones de pesos)', 'clasificacion_ofpuj': 'Clasificación OFPUJ'},
                             hover_data=['clas_gen'])
@@ -682,7 +684,7 @@ elif selected_option == "Presupuesto":
             a = fild[fild['Año'] == 2024].groupby(['clas_gen', 'clasificacion_ofpuj'])['recaudo_cons'].sum().reset_index()
             fig = px.treemap(a, path=[px.Constant('Presupuesto'), 'clas_gen', 'clasificacion_ofpuj'],
                             values='recaudo_cons',
-                            color_discrete_sequence=["#262947", "#1A1F63","#2F399B" ,"#D9D9ED",],
+                            color_discrete_sequence=color_seq,
                             title="Proporciones de recaudo por clasificación OFPUJ",
                             labels={'recaudo_cons': 'Recaudo (millones de pesos)', 'clasificacion_ofpuj': 'Clasificación OFPUJ'},
                             hover_data=['clas_gen'])
@@ -916,15 +918,11 @@ elif selected_option == "Presupuesto":
 
     # Tab 2: SGP
 elif selected_option == "Sistema General de Participaciones":
-    tab1, tab2, tab3 = st.tabs(["General", "Por departamento", "Por muncipio"])
+    tab1, tab2, tab3 = st.tabs(["General", "Por departamento", "Por municipio"])
     with tab1:
-        st.header("SGP")
-        st.subheader("General")
 
         # --- Paleta de colores ---
-        color_seq = ["#F7B261", "#CBECEF", "#D9D9ED", "#D8841C", "#81D3CD", "#2F399B", "#dd722a", "#0FB7B3", "#1A1F63"]
-        
-        color_seq.reverse()
+
         color_map = dict(zip(sgp['Concepto'].unique().tolist(), color_seq[:len(sgp['Concepto'].unique().tolist())]))
 
         # --- Pie chart ---
@@ -980,8 +978,8 @@ elif selected_option == "Sistema General de Participaciones":
             column_widths=[0.3, 0.35, 0.35],
             subplot_titles=[
                 "Distribución general SGP",
-                "Distribución per cápita departamental",
-                "Distribución per cápita municipal"
+                "Promedio per cápita departamental",
+                "Promedio per cápita municipal"
             ]
         )
 
@@ -1171,8 +1169,8 @@ elif selected_option == "Sistema General de Participaciones":
             specs=[[{'type': 'domain'}, {'type': 'xy'}]],
             column_widths=[0.50, 0.50],
             subplot_titles=[
-                "Presupuesto SGP 2024 por departamento",
-                "Distribución por categoría y concepto (2024)"
+                "Asignación departamental - SGP",
+                "Asignación por categoría"
             ],
             horizontal_spacing=0.12
         )
@@ -1199,13 +1197,14 @@ elif selected_option == "Sistema General de Participaciones":
                 name=concepto,
                 text=df_sub['valor_perc'],
                 textposition='auto',
+                showlegend=False,
                 marker_color=color_map.get(concepto, "#CCCCCC"),
                 hovertemplate=f"<b>{concepto}</b><br>Categoría: %{{x}}<br>Porcentaje: %{{y:.1f}}%<extra></extra>"
             ), row=1, col=2)
 
         # --- Estética general ---
         fig.update_layout(
-            title="Distribución del recaudo per cápita por departamentos en 2024",
+            title="Asignación del SGP a nivel departamental - 2024",
             title_font=dict(size=22, color="#1A1F63"),
             font=dict(size=14, color="#1A1F63"),
             paper_bgcolor="#FFE9C5",
@@ -1217,6 +1216,7 @@ elif selected_option == "Sistema General de Participaciones":
             height=600,
             width=1200
         )
+        fig.update_yaxes(showticklabels=False, row=1, col=2)  # Ocultar etiquetas del eje y en el gráfico de barras
 
         # --- Mostrar en Streamlit ---
         st.plotly_chart(fig, use_container_width=True, key="sgp-combo-plot")
@@ -1293,7 +1293,6 @@ elif selected_option == "Sistema General de Participaciones":
 
         # --- Layout general ---
         fig.update_layout(
-            title=f"Análisis del SGP en {depto} - 2023 y 2024",
             font=dict(size=14, color="#1A1F63"),
             paper_bgcolor="#FFE9C5",
             plot_bgcolor="#FFE9C5",
@@ -1304,10 +1303,10 @@ elif selected_option == "Sistema General de Participaciones":
             showlegend=False,
             treemapcolorway = color_seq
         )
+        fig.update_yaxes(showticklabels=False, row=1, col=2)  # Ocultar etiquetas del eje y en el gráfico de barras
 
         st.plotly_chart(fig, use_container_width=True, key="treemap-waterfall")
     with tab3:
-        st.subheader("Por municipio")
 
             # --- Datos para Pie y Barras ---
         a1 = sgp.query("Año == 2024 & TipoEntidad == 'Municipio'")
@@ -1324,8 +1323,8 @@ elif selected_option == "Sistema General de Participaciones":
             specs=[[{'type': 'domain'}, {'type': 'xy'}]],
             column_widths=[0.50, 0.50],
             subplot_titles=[
-                "Presupuesto SGP 2024 por municipio",
-                "Distribución por categoría y concepto (2024)"
+                "Asignación municipal - SGP",
+                "Asignación por categoría"
             ],
             horizontal_spacing=0.12
         )
@@ -1352,13 +1351,14 @@ elif selected_option == "Sistema General de Participaciones":
                 name=concepto,
                 text=df_sub['valor_perc'],
                 textposition='auto',
+                showlegend=False,
                 marker_color=color_map.get(concepto, "#CCCCCC"),
                 hovertemplate=f"<b>{concepto}</b><br>Categoría: %{{x}}<br>Porcentaje: %{{y:.1f}}%<extra></extra>"
             ), row=1, col=2)
 
         # --- Estética general ---
         fig.update_layout(
-            title="Distribución del recaudo per cápita por municipios en 2024",
+            title="Asignación del SGP a nivel municipal - 2024",
             title_font=dict(size=22, color="#1A1F63"),
             font=dict(size=14, color="#1A1F63"),
             paper_bgcolor="#FFE9C5",
@@ -1370,6 +1370,7 @@ elif selected_option == "Sistema General de Participaciones":
             height=600,
             width=1200
         )
+        fig.update_yaxes(showticklabels=False, row=1, col=2)
 
         # --- Mostrar en Streamlit ---
         st.plotly_chart(fig, use_container_width=True, key="sgp_combo_plot")
@@ -1447,7 +1448,6 @@ elif selected_option == "Sistema General de Participaciones":
 
         # --- Layout general ---
         fig.update_layout(
-            title=f"Análisis del SGP en {mun} - 2023 y 2024",
             font=dict(size=14, color="#1A1F63"),
             paper_bgcolor="#FFE9C5",
             plot_bgcolor="#FFE9C5",
@@ -1458,6 +1458,7 @@ elif selected_option == "Sistema General de Participaciones":
             showlegend=False,
             treemapcolorway = color_seq
         )
+        fig.update_yaxes(showticklabels=False, row=1, col=2)
 
         st.plotly_chart(fig, use_container_width=True, key="treemap_waterfall_fixed")
 
@@ -1465,80 +1466,190 @@ elif selected_option == "Sistema General de Participaciones":
 
 # Tab 3: SGR
 elif selected_option == "Sistema General de Regalías":
-    st.header("SGR")
-
-    # donut de asignaciones generales
-
-    fig = px.treemap(sgr, path=[px.Constant("SGR"), 'Concepto', 'Subconcepto', 'Subsubconcepto'], values='Valor',
-                     color_discrete_sequence=["#1A1F63","#2F399B" ,"#D9D9ED",])
-
-    st.plotly_chart(fig, key=612)
-
+    color_seq = color_seq + color_seq
     # barras de asignación directa por categoría en departamentos
 
     t = sgr[sgr['Tipo entidad'] == 'Departamento'].groupby(['Categoría', 'Subconcepto'])['Valor'].sum().reset_index()
+    t['valor_tot'] = t.groupby('Categoría')['Valor'].transform('sum')
+    t['valor_perc'] = (t['Valor'] / t['valor_tot'] * 100).round(1)
+    color_map = dict(zip(sgr['Subconcepto'].unique().tolist(), color_seq[:len(sgr['Subconcepto'].unique().tolist())]))
+    t.replace({'Categoría':{0:'Esp', 1:'1ra', 2:'2da', 3:'3ra', 4:'4ta', 5:'5ta', 6:'6ta'}}, inplace=True)
+    fig = make_subplots(
+            rows=1, cols=3,
+            specs=[[{'type': 'domain'}, {'type': 'xy'}, {'type': 'xy'}]],
+            column_widths=[0.4, 0.3, 0.3],
+            subplot_titles=[
+                "Proporción de asignación del SGR",
+                "Asignación departamental - SGR",
+                "Asignación municipal - SGR"
+            ],
+            horizontal_spacing=0.04
+        )
+    
+    a = sgr.groupby(['Concepto', 'Subconcepto', 'Subsubconcepto'])['Valor'].sum().reset_index()
 
-    fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos',
-                 color_discrete_sequence=["#1A1F63","#2F399B" ,"#D9D9ED",])
-    st.plotly_chart(fig, key=6111)
-    # barras de asignación directa por categoría en municipios
+        # Transformar con función personalizada
+    tree_data = path_to_labels_parents(a, ["Concepto", "Subconcepto", "Subsubconcepto"], "Valor", val_parent="SGR")
+    
+    fig.add_trace(go.Treemap(
+            labels=tree_data['label'],
+            parents=tree_data['parent'],
+            ids=tree_data['id'],
+            values=tree_data['value'],
+            root_color="#FFE9C5",
+            hovertemplate='<b>%{label}</b><br>Valor: %{value:,.0f}<extra></extra>'
+        ), row=1, col=1)
+    
+    subconceptos = t['Subconcepto'].unique()
+    for i, subconcepto in enumerate(subconceptos):
+        df_sub = t[t['Subconcepto'] == subconcepto]
+        fig.add_trace(go.Bar(
+            x=df_sub['Categoría'],
+            y=df_sub['valor_perc'],
+            name=subconcepto,
+            text=df_sub['valor_perc'],
+            textposition='auto',
+            showlegend=False,
+            marker_color=color_map.get(subconcepto, "#CCCCCC"),
+                hovertemplate=f"<b>{subconcepto}</b><br>Categoría: %{{x}}<br>Porcentaje: %{{y:.1f}}%<extra></extra>"
+            ), row=1, col=2)
 
+    fig.update_layout(
+        title="Asignación del SGR - 2024",
+            title_font=dict(size=22, color="#1A1F63"),
+            font=dict(size=14, color="#1A1F63"),
+            paper_bgcolor="#FFE9C5",
+            plot_bgcolor="#FFE9C5",
+            barmode='stack',
+            margin=dict(l=30, r=30, t=80, b=60),
+            hoverlabel=dict(font_size=16, font_color="#1A1F63"),
+            height=600,
+            width=1200,            
+            legend=dict(
+                orientation="h",
+                y=-0.15,
+                x=0.5,
+                xanchor="center",
+                title_font=dict(size=16, color="#1A1F63")),
+            treemapcolorway = color_seq,
+        )
+    fig.update_yaxes(showticklabels=False, row=1, col=2)
+    
+
+    
     t = sgr[sgr['Tipo entidad'] == 'Municipio'].groupby(['Categoría', 'Subconcepto'])['Valor'].sum().reset_index()
+    t['valor_tot'] = t.groupby('Categoría')['Valor'].transform('sum')
+    t['valor_perc'] = (t['Valor'] / t['valor_tot'] * 100).round(1)
+    t.replace({'Categoría':{0:'Esp', 1:'1ra', 2:'2da', 3:'3ra', 4:'4ta', 5:'5ta', 6:'6ta'}}, inplace=True)
+    subconceptos = t['Subconcepto'].unique()
+    for i, subconcepto in enumerate(subconceptos):
+        df_sub = t[t['Subconcepto'] == subconcepto]
+        fig.add_trace(go.Bar(
+            x=df_sub['Categoría'],
+            y=df_sub['valor_perc'],
+            name=subconcepto,
+            text=df_sub['valor_perc'],
+            textposition='auto',
+            marker_color=color_map.get(subconcepto, "#CCCCCC"),
+                hovertemplate=f"<b>{subconcepto}</b><br>Categoría: %{{x}}<br>Porcentaje: %{{y:.1f}}%<extra></extra>"
+            ), row=1, col=3)
+        
+    fig.update_yaxes(showticklabels=False, row=1, col=3)
 
-    fig = px.bar(t, x='Categoría', y='Valor', color='Subconcepto', title='SGR por categoría y subconcepto en Departamentos',
-                 color_discrete_sequence=["#1A1F63","#2F399B" ,"#D9D9ED",])
-    st.plotly_chart(fig, key=613)
+    st.plotly_chart(fig, key=6111)
 
-    # seleccionar departamento
-    deps = sgr[sgr['Tipo entidad'] == 'Departamento']['Departamento'].unique()
-    depto = st.selectbox("Selecciona un departamento", options=deps)
-    fil_dep = sgr[sgr['Departamento'] == depto]
+    col1, col2 = st.columns(2)
 
-    # donut chart con la asignación del departamento
-    a = fil_dep.groupby('Subconcepto')['Valor'].sum().reset_index()
-    a = a.sort_values(by='Valor', ascending=False)
-    fig = go.Figure(data=[go.Pie(labels=a['Subconcepto'], values=a['Valor'],
-                                    hole=0.7,
-                                    textinfo='percent',
-                                    marker=dict(colors=["#D9D9ED", "#2F399B", '#1A1F63', "#2635bf"]),
-                                    pull=[0.1, 0.1, 0.1, 0.1],
-                                    hoverinfo='label+percent',
-                                    showlegend=True)])
-    fig.update_layout(title_text=f"Presupuesto SGR 2024 - {depto}",
-                      title_font=dict(size=20, color="#1A1F63"),
-                      font=dict(size=14, color="#1A1F63"),
-                        paper_bgcolor="#FFE9C5",
-                        plot_bgcolor="#FFE9C5",
-                        legend=dict(title_text="Subconcepto", title_font=dict(size=16, color="#1A1F63")))
-    # reduce margins in plot
-    fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
-    # change hover info: only show name and increase the size of the hover text
-    fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
-    st.plotly_chart(fig, key=62)
+    with col1:
+        # seleccionar departamento
+        deps = sgr[sgr['Tipo entidad'] == 'Departamento']['Departamento'].unique()
+        depto = st.selectbox("Selecciona un departamento", options=deps)
+        fil_dep = sgr[sgr['Departamento'] == depto]
 
-    # seleccionar municipio
+        # donut chart con la asignación del departamento
+        a = fil_dep.groupby('Subconcepto')['Valor'].sum().reset_index()
+        a = a.sort_values(by='Valor', ascending=False)
+        fig = go.Figure(data=[go.Pie(labels=a['Subconcepto'], values=a['Valor'],
+                                        hole=0.7,
+                                        textinfo='percent',
+                                        marker=dict(colors=color_seq),
+                                        pull=[0.1, 0.1, 0.1, 0.1],
+                                        hoverinfo='label+percent',
+                                        showlegend=True)])
+        fig.update_layout(title_text=f"Presupuesto SGR 2024 - {depto}",
+                        title_font=dict(size=20, color="#1A1F63"),
+                        font=dict(size=14, color="#1A1F63"),
+                            paper_bgcolor="#FFE9C5",
+                            plot_bgcolor="#FFE9C5",
+                            legend=dict(title_text="Subconcepto", title_font=dict(size=16, color="#1A1F63")))
+        # reduce margins in plot
+        fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
+        # change hover info: only show name and increase the size of the hover text
+        fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
+        st.plotly_chart(fig, key=62)
 
-    muns = fil_dep[fil_dep['Tipo entidad'] == 'Municipio']['Entidad'].unique()
-    mun = st.selectbox("Selecciona un municipio", options=muns)
-    fil_mun = fil_dep[fil_dep['Entidad'] == mun]
-    # donut chart con la asignación del municipio
-    a = fil_mun.groupby('Subconcepto')['Valor'].sum().reset_index()
-    a = a.sort_values(by='Valor', ascending=False)
-    fig = go.Figure(data=[go.Pie(labels=a['Subconcepto'], values=a['Valor'],
-                                    hole=0.7,
-                                    textinfo='percent',
-                                    marker=dict(colors=["#D9D9ED", "#2F399B", '#1A1F63', "#2635bf"]),
-                                    pull=[0.1, 0.1, 0.1, 0.1],
-                                    hoverinfo='label+percent',
-                                    showlegend=True)])
-    fig.update_layout(title_text=f"Presupuesto SGR 2024 - {depto} - {mun}",
-                      title_font=dict(size=20, color="#1A1F63"),
-                      font=dict(size=14, color="#1A1F63"),
-                        paper_bgcolor="#FFE9C5",
-                        plot_bgcolor="#FFE9C5",
-                        legend=dict(title_text="Subconcepto", title_font=dict(size=16, color="#1A1F63")))
-    # reduce margins in plot
-    fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
-    # change hover info: only show name and increase the size of the hover text
-    fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
-    st.plotly_chart(fig, key=621)
+    with col2:
+
+        # seleccionar municipio
+
+        muns = fil_dep[fil_dep['Tipo entidad'] == 'Municipio']['Entidad'].unique()
+        mun = st.selectbox("Selecciona un municipio", options=muns)
+        fil_mun = fil_dep[fil_dep['Entidad'] == mun]
+        # donut chart con la asignación del municipio
+        a = fil_mun.groupby('Subconcepto')['Valor'].sum().reset_index()
+        a = a.sort_values(by='Valor', ascending=False)
+        fig = go.Figure(data=[go.Pie(labels=a['Subconcepto'], values=a['Valor'],
+                                        hole=0.7,
+                                        textinfo='percent',
+                                        marker=dict(colors=color_seq),
+                                        pull=[0.1, 0.1, 0.1, 0.1],
+                                        hoverinfo='label+percent',
+                                        showlegend=True)])
+        fig.update_layout(title_text=f"Presupuesto SGR 2024 - {mun}",
+                        title_font=dict(size=20, color="#1A1F63"),
+                        font=dict(size=14, color="#1A1F63"),
+                            paper_bgcolor="#FFE9C5",
+                            plot_bgcolor="#FFE9C5",
+                            legend=dict(title_text="Subconcepto", title_font=dict(size=16, color="#1A1F63")))
+        # reduce margins in plot
+        fig.update_layout(margin=dict(l=20, r=20, t=50, b=20))
+        # change hover info: only show name and increase the size of the hover text
+        fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
+        st.plotly_chart(fig, key=621)
+
+elif selected_option == "Descarga de datos":
+
+
+    def to_csv_bytes(df):
+        return df.to_csv(index=False).encode("utf-8-sig")
+
+    
+
+    c1, c2, c3 = st.columns(3)
+
+    with c1:
+        st.download_button(
+            label="Descargar Presupuesto",
+            data=to_csv_bytes(pres),
+            file_name="presupuesto.csv",
+            mime="text/csv",
+            key="dl_presupuesto"
+        )
+
+    with c2:
+        st.download_button(
+            label="Descargar SGP",
+            data=to_csv_bytes(sgp),
+            file_name="sgp.csv",
+            mime="text/csv",
+            key="dl_sgp"
+        )
+
+    with c3:
+        st.download_button(
+            label="Descargar Regalías",
+            data=to_csv_bytes(sgr),
+            file_name="regalias.csv",
+            mime="text/csv",
+            key="dl_regalias"
+        )
