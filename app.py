@@ -1274,7 +1274,7 @@ elif selected_option == "Sistema General de Participaciones":
             ids=tree_data['id'],
             values=tree_data['value'],
             root_color="#FFE9C5",
-            hovertemplate='<b>%{label}</b><br>Valor: %{value:,.0f}<extra></extra>'
+            hovertemplate=''
         ), row=1, col=1)
 
         # --- Agregar Waterfall ---
@@ -1429,7 +1429,7 @@ elif selected_option == "Sistema General de Participaciones":
             ids=tree_data['id'],
             values=tree_data['value'],
             root_color="#FFE9C5",
-            hovertemplate='<b>%{label}</b><br>Valor: %{value:,.0f}<extra></extra>'
+            hovertemplate=''
         ), row=1, col=1)
 
         # --- Agregar Waterfall ---
@@ -1497,7 +1497,7 @@ elif selected_option == "Sistema General de Regalías":
             ids=tree_data['id'],
             values=tree_data['value'],
             root_color="#FFE9C5",
-            hovertemplate='<b>%{label}</b><br>Valor: %{value:,.0f}<extra></extra>'
+            hovertemplate=''
         ), row=1, col=1)
     
     subconceptos = t['Subconcepto'].unique()
