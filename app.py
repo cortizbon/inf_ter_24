@@ -670,7 +670,8 @@ elif selected_option == "Presupuesto":
             fig.update_xaxes(title_text="Recaudo (en millones de pesos)", tickformat="~s") 
             st.plotly_chart(fig, key=9)
 
-
+        depar = st.selectbox("Selecciona un departamento", options=pres[pres['Tipo de Entidad'] == 'Departamento']['Entidad'].unique(), key='different')
+        fil_dep = pres[pres['Departamento'] == depar]
         mun = st.selectbox("Selecciona un municipio", options=fil_dep[fil_dep['Tipo de Entidad'] == 'Municipio']['Entidad'].unique())
         fild = fil_dep[fil_dep['Entidad'] == mun]
         cols_dep = st.columns(2)
@@ -1415,7 +1416,7 @@ elif selected_option == "Sistema General de Participaciones":
             rows=1, cols=2,
             specs=[[{'type': 'domain'}, {'type': 'xy'}]],
             column_widths=[0.5, 0.5],
-            horizontal_spacing=0.1,
+            horizontal_spacing=0.05,
             subplot_titles=[
                 f"Proporciones de recaudo por concepto en {mun}",
                 f"Cambio en asignación de SGP en {mun} - 2023 a 2024"
@@ -1593,7 +1594,7 @@ elif selected_option == "Sistema General de Regalías":
         # seleccionar municipio
 
         muns = fil_dep[fil_dep['Tipo entidad'] == 'Municipio']['Entidad'].unique()
-        mun = st.selectbox("Selecciona un municipio", options=muns)
+        mun = st.selectbox("Selecciona un municipio", options=muns, key='any_key')
         fil_mun = fil_dep[fil_dep['Entidad'] == mun]
         # donut chart con la asignación del municipio
         a = fil_mun.groupby('Subconcepto')['Valor'].sum().reset_index()
