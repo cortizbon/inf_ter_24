@@ -39,7 +39,7 @@ selected_option = option_menu(None, ["Main",
 
 ## carga de presupuesto
 
-pres = pd.read_csv('datasets/ejec_2324_clean.csv')
+pres = pd.read_csv('datasets/ejec_2324_clean_2.csv')
 pres['recaudo_cons'] = (pres['recaudo_cons'] / 1000000).round(2).round(2)  # Convertir a millones de pesos
 
 ## carga de sgp
@@ -733,7 +733,7 @@ elif selected_option == "Presupuesto":
                 hovertext=[f"{row['clas_gen']}: {row['recaudo_cons_2023']}" for index, row in pres_comparison.iterrows()]
             ))
             fig.update_layout(
-                title=f"Comparación de recaudo por clasificación OFPUJ en {depar} (2023 vs 2024)",
+                title=f"Comparación de recaudo por clasificación OFPUJ en {mun} (2023 vs 2024)",
                 title_font=dict(size=20, color="#1A1F63"),
                 xaxis_title="Recaudo (en millones de pesos)",
                 yaxis_title="Clasificación general",
