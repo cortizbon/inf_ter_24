@@ -26,13 +26,11 @@ st.title("Ingresos territoriales - 2024")
 selected_option = option_menu(None, ["Main", 
                                      "Presupuesto", 
                                      "Sistema General de Participaciones", 
-                                     "Sistema General de Regalías",
-                                     "Descarga de datos"],
+                                     "Sistema General de Regalías"],
         icons=['arrow-right-short', 
                'file-bar-graph', 
                'intersect', 
-               'columns-gap',
-               'cloud-download'], 
+               'columns-gap'], 
         menu_icon="p", default_index=0, orientation="horizontal")    
 
 # Cargar los datos
@@ -1618,39 +1616,4 @@ elif selected_option == "Sistema General de Regalías":
         fig.update_traces(hoverinfo='label+percent', hoverlabel=dict(font_size=16, font_color="#1A1F63"), showlegend=False)
         st.plotly_chart(fig, key=621)
 
-elif selected_option == "Descarga de datos":
 
-
-    def to_csv_bytes(df):
-        return df.to_csv(index=False).encode("utf-8-sig")
-
-    
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        st.download_button(
-            label="Descargar Presupuesto",
-            data=to_csv_bytes(pres),
-            file_name="presupuesto.csv",
-            mime="text/csv",
-            key="dl_presupuesto"
-        )
-
-    with c2:
-        st.download_button(
-            label="Descargar SGP",
-            data=to_csv_bytes(sgp),
-            file_name="sgp.csv",
-            mime="text/csv",
-            key="dl_sgp"
-        )
-
-    with c3:
-        st.download_button(
-            label="Descargar Regalías",
-            data=to_csv_bytes(sgr),
-            file_name="regalias.csv",
-            mime="text/csv",
-            key="dl_regalias"
-        )
